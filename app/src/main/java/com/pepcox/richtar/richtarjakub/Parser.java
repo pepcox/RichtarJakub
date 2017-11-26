@@ -11,11 +11,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser extends AsyncTask<Void, Void, List<Beer>> {
 
-    private final String awesomeBeerUrl = "http://www.richtarjakub.sk/hostinec/piva-na-vycape/";
+    private final String baseRichtarUrl = "http://www.richtarjakub.sk";
+    private final String awesomeBeerUrl = baseRichtarUrl + "/hostinec/piva-na-vycape/";
     private OnParseDoneCallback onParseDoneCallback;
 
     public Parser(final OnParseDoneCallback onParseDoneCallback) {
@@ -25,6 +27,7 @@ public class Parser extends AsyncTask<Void, Void, List<Beer>> {
 
     @Override
     protected List<Beer> doInBackground(final Void... voids) {
+        ArrayList<Beer> beerList = new ArrayList<>();
         Document doc = null;
         try {
             doc = Jsoup.connect(awesomeBeerUrl).get();
@@ -33,14 +36,18 @@ public class Parser extends AsyncTask<Void, Void, List<Beer>> {
             for (Element headline : newsHeadlines) {
 
                 Log.d("DEVELOP", "Title: " + headline.select("a").get(1).text());
-//                log("%s\n\t%s",
-//                        headline.attr("title"), headline.absUrl("href"));
+                Log.d("DEVELOP", "Image: " + baseRichtarUrl + headline.select("img").attr("src"));
+                beerList.add(new Beer(
+                        headline.select("a").get(1).text(),
+                        baseRichtarUrl + headline.select("img").attr("src"),
+                        "some subtitle :)"
+                ));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return beerList;
     }
 
     public void clearCallback() {

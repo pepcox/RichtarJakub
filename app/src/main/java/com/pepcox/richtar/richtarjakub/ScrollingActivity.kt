@@ -2,16 +2,22 @@ package com.pepcox.richtar.richtarjakub
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import com.pepcox.richtar.richtarjakub.data.Beer
+import kotlinx.android.synthetic.main.activity_scrolling.*
 
 class ScrollingActivity : AppCompatActivity(), Parser.OnParseDoneCallback {
 
     lateinit var parser: Parser
 
-    override fun onParsingDone(beers: MutableList<Beer>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onParsingDone(beers: List<Beer>?) {
+        my_recycler_view
+        my_recycler_view.hasFixedSize()
+        my_recycler_view.layoutManager = LinearLayoutManager(this)
+        my_recycler_view.adapter = BeerAdapter(beers, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

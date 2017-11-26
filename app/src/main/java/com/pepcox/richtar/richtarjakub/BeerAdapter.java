@@ -12,12 +12,13 @@ import com.pepcox.richtar.richtarjakub.data.Beer;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> {
-    private ArrayList beers;
+    private List beers;
     private Context context;
 
-    BeerAdapter(ArrayList beers, Context context) {
+    BeerAdapter(List beers, Context context) {
         this.beers = beers;
         this.context = context;
     }
