@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/beer_pic"
-        android:layout_width="210dp"
-        android:layout_height="255dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/doge"/>
 
     <TextView
         android:id="@+id/beer_id"
@@ -23,6 +23,6 @@
         android:textColor="@color/colorAccent"
         android:textSize="15sp"
         android:textStyle="bold"
-        tools:text="tvoja matka"/>
+        tools:text="@string/credits"/>
 
 </RelativeLayout>

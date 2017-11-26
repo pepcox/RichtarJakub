@@ -1,6 +1,7 @@
 package com.pepcox.richtar.richtarjakub;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,21 @@ import android.widget.TextView;
 import com.pepcox.richtar.richtarjakub.data.Beer;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> {
     private List beers;
     private Context context;
+
+    @IntDef({ViewType.BEER, ViewType.CREDITS})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface ViewType {
+        int BEER = 0;
+        int CREDITS = 1;
+    }
+
 
     BeerAdapter(List beers, Context context) {
         this.beers = beers;
@@ -25,27 +35,46 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_item, null);
+        View view;
+        if (viewType == ViewType.BEER) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_item, null);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.credits_item, null);
+        }
 
         return new MyViewHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        Beer beer = (Beer) beers.get(position);
-
-        if(beer != null) {
-            Picasso.with(context)
-                    .load(beer.getImageUrl())
-                    .into(holder.imageView);
-            holder.textView.setText(beer.getTitle());
+    public int getItemViewType(final int position) {
+        if (position > beers.size()) {
+            return ViewType.CREDITS;
+        } else {
+            return ViewType.BEER;
         }
     }
 
     @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        String text;
+        if (position < beers.size()) {
+            Beer beer = (Beer) beers.get(position);
+            text = beer.getTitle();
+            Picasso.with(context)
+                    .load(beer.getImageUrl())
+                    .into(holder.imageView);
+        } else {
+            text = context.getString(R.string.credits);
+            Picasso.with(context)
+                    .load(R.drawable.doge)
+                    .into(holder.imageView);
+        }
+        holder.textView.setText(text);
+    }
+
+    @Override
     public int getItemCount() {
-        return (null != beers ? beers.size() : 0);
+        return (null != beers ? beers.size() + 1 : 0);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
