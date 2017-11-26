@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Parser extends AsyncTask<Void, Void, Void> {
 
-    private String awesomeBeerUrl = "http://www.richtarjakub.sk/hostinec/piva-na-vycape/";
+    private final String awesomeBeerUrl = "http://www.richtarjakub.sk/hostinec/piva-na-vycape/";
 
     @Override
     protected Void doInBackground(final Void... voids) {
@@ -20,8 +20,10 @@ public class Parser extends AsyncTask<Void, Void, Void> {
         try {
             doc = Jsoup.connect(awesomeBeerUrl).get();
             Log.d("DEVELOP", doc.title());
-            Elements newsHeadlines = doc.select("#mp-itn b a");
+            Elements newsHeadlines = doc.select(".beerItem");
             for (Element headline : newsHeadlines) {
+
+                Log.d("DEVELOP", "Title: " + headline.select("a").get(1).text());
 //                log("%s\n\t%s",
 //                        headline.attr("title"), headline.absUrl("href"));
             }
