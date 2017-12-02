@@ -29,7 +29,7 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
     }
 
 
-    BeerAdapter(List beers, Context context) {
+    public BeerAdapter(List beers, Context context) {
         this.beers = beers;
         this.context = context;
     }

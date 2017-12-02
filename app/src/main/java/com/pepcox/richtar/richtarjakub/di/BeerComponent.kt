@@ -1,6 +1,6 @@
 package com.pepcox.richtar.richtarjakub.di
 
-import com.pepcox.richtar.richtarjakub.ScrollingActivity
+import com.pepcox.richtar.richtarjakub.activites.ScrollingActivity
 import dagger.Component
 import javax.inject.Singleton
 
