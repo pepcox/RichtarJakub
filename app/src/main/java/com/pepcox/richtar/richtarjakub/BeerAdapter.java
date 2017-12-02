@@ -1,8 +1,6 @@
 package com.pepcox.richtar.richtarjakub;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pepcox.richtar.richtarjakub.activites.BeerDetailActivity;
 import com.pepcox.richtar.richtarjakub.data.Beer;
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +19,7 @@ import java.util.List;
 public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> {
     private List beers;
     private Context context;
+    private ItemClickedInterface itemClickedInterface;
 
     @IntDef({ViewType.BEER, ViewType.CREDITS})
     @Retention(RetentionPolicy.SOURCE)
@@ -31,9 +29,10 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
     }
 
 
-    public BeerAdapter(List beers, Context context) {
+    public BeerAdapter(List beers, Context context, ItemClickedInterface itemClickedInterface) {
         this.beers = beers;
         this.context = context;
+        this.itemClickedInterface = itemClickedInterface;
     }
 
     @Override
@@ -69,13 +68,9 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(BeerDetailActivity.NAME_ARG, beer.getName());
-
-                    Intent intent = new Intent(context, BeerDetailActivity.class);
-                    intent.putExtras(bundle);
-
-                    context.startActivity(intent);
+                    if (itemClickedInterface != null) {
+                        itemClickedInterface.onItemClicked(beer);
+                    }
                 }
             });
         } else {
