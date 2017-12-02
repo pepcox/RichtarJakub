@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pepcox.richtar.richtarjakub.data.Beer;
 import com.squareup.picasso.Picasso;
@@ -58,11 +59,17 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         String text;
         if (position < beers.size()) {
-            Beer beer = (Beer) beers.get(position);
-            text = beer.getTitle();
+            final Beer beer = (Beer) beers.get(position);
+            text = beer.getName();
             Picasso.with(context)
-                    .load(beer.getImageUrl())
+                    .load(beer.getImage())
                     .into(holder.imageView);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), beer.getDetail(), Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             text = context.getString(R.string.credits);
             Picasso.with(context)
