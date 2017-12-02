@@ -3,6 +3,7 @@ package com.pepcox.richtar.richtarjakub.activites
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
+import android.view.MenuItem
 import android.widget.Toast
 import com.pepcox.richtar.richtarjakub.R
 import com.pepcox.richtar.richtarjakub.RichtarJakupApp
@@ -29,6 +30,10 @@ class BeerDetailActivity: AppCompatActivity() {
 
         setContentView(R.layout.activity_beer_detail)
 
+        setSupportActionBar(toolbar)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         RichtarJakupApp.beersComponent.inject(this)
 
         beer = intent.extras.getSerializable(BEER_ARG) as Beer
@@ -51,5 +56,16 @@ class BeerDetailActivity: AppCompatActivity() {
                         {
                             Toast.makeText(ScrollingActivity@this, it.message, Toast.LENGTH_SHORT).show()
                         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
