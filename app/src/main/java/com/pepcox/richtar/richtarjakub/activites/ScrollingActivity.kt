@@ -20,7 +20,7 @@ class ScrollingActivity : AppCompatActivity(), ItemClickedInterface {
 
     override fun onItemClicked(beer: Beer) {
         val bundle = Bundle()
-        bundle.putString(BeerDetailActivity.NAME_ARG, beer.name)
+        bundle.putSerializable(BeerDetailActivity.BEER_ARG, beer)
 
         val intent = Intent(this, BeerDetailActivity::class.java)
         intent.putExtras(bundle)
@@ -40,9 +40,10 @@ class ScrollingActivity : AppCompatActivity(), ItemClickedInterface {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    val context = ScrollingActivity@this;
                     my_recycler_view.hasFixedSize()
-                    my_recycler_view.layoutManager = LinearLayoutManager(ScrollingActivity@this)
-                    my_recycler_view.adapter = BeerAdapter(it, ScrollingActivity@ this, ScrollingActivity@this);
+                    my_recycler_view.layoutManager = LinearLayoutManager(context)
+                    my_recycler_view.adapter = BeerAdapter(it, context, context)
                 },
                 {
                     Toast.makeText(ScrollingActivity@this, it.message, Toast.LENGTH_SHORT).show()
