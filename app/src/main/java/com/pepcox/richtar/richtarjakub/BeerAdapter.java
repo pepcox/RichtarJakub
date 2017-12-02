@@ -73,13 +73,8 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
                     }
                 }
             });
-        } else {
-            text = context.getString(R.string.credits);
-            Picasso.with(context)
-                    .load(R.drawable.doge)
-                    .into(holder.imageView);
+            holder.textView.setText(text);
         }
-        holder.textView.setText(text);
     }
 
     @Override
