@@ -39,9 +39,6 @@ class BeerDetailActivity: AppCompatActivity() {
         beer = intent.extras.getSerializable(BEER_ARG) as Beer
 
         title = beer.name
-        Picasso.with(this)
-                .load(beer.image)
-                .into(beer_image)
 
         beerManager.getBeerDetail(beer.detail)
                 .subscribeOn(Schedulers.io())
