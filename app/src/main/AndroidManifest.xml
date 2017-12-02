@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activites.BeerDetailActivity"/>
+        <activity android:name=".activites.BeerDetailActivity" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

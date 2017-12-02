@@ -1,6 +1,7 @@
 package com.pepcox.richtar.richtarjakub.managers
 
 import com.pepcox.richtar.richtarjakub.data.Beer
+import com.pepcox.richtar.richtarjakub.data.BeerDetail
 import com.pepcox.richtar.richtarjakub.network.BeerApi
 import rx.Observable
 import java.io.IOException
@@ -15,6 +16,22 @@ class BeerManager @Inject constructor(private val api: BeerApi) {
             subscriber ->
 
             val call = api.getBeers()
+            try {
+                val response = call.execute()
+                if (response.isSuccessful) {
+                    subscriber.onNext(response.body())
+                }
+            } catch (e: IOException) {
+                subscriber.onError(Throwable(e.message))
+            }
+        }
+    }
+
+    fun getBeerDetail(url: String): Observable<BeerDetail> {
+        return Observable.create {
+            subscriber ->
+
+            val call = api.getBeerDetail(url)
             try {
                 val response = call.execute()
                 if (response.isSuccessful) {
