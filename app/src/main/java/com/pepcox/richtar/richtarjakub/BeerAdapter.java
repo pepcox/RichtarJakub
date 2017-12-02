@@ -1,6 +1,8 @@
 package com.pepcox.richtar.richtarjakub;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.pepcox.richtar.richtarjakub.activites.BeerDetailActivity;
 import com.pepcox.richtar.richtarjakub.data.Beer;
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +69,13 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(), beer.getDetail(), Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(BeerDetailActivity.NAME_ARG, beer.getName());
+
+                    Intent intent = new Intent(context, BeerDetailActivity.class);
+                    intent.putExtras(bundle);
+
+                    context.startActivity(intent);
                 }
             });
         } else {
