@@ -23,4 +23,10 @@
         <item name="android:background">@color/colorAccent</item>
     </style>
 
+    <style name="BeerText">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
