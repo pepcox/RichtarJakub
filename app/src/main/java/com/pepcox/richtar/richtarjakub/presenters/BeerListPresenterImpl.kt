@@ -18,11 +18,11 @@ class BeerListPresenterImpl(private val context: Context) : ItemListPresenter<Be
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showBeers(view: View, beers: List<Beer>, listener: ItemClickedInterface<Beer>) {
+    override fun showBeers(view: View, items: List<Beer>, listener: ItemClickedInterface<Beer>) {
         val recyclerView = view as RecyclerView
         recyclerView.hasFixedSize()
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = BeerAdapter(beers, context, listener)
+        recyclerView.adapter = BeerAdapter(items, context, listener)
     }
 
     override fun showDetail(beer: Beer) {
