@@ -17,12 +17,12 @@ class BeersModule(val context: Context) {
 
     @Provides
     @Singleton
-    fun provideNewsAPI(redditApi: RichtarApi): BeerApi = RichtarRestApi(redditApi)
+    fun providesRestAPI(richtarApi: RichtarApi): BeerApi = RichtarRestApi(richtarApi)
 
     @Provides
     @Singleton
-    fun provideRedditApi(retrofit: Retrofit): RichtarApi = retrofit.create(RichtarApi::class.java)
+    fun providesRichtarApi(retrofit: Retrofit): RichtarApi = retrofit.create(RichtarApi::class.java)
 
     @Provides
-    fun provideBeerListPresenter(): ItemListPresenter<Beer> = BeerListPresenterImpl(context)
+    fun providesBeerListPresenter(): ItemListPresenter<Beer> = BeerListPresenterImpl(context)
 }
