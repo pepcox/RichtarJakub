@@ -1,8 +1,7 @@
 package com.pepcox.richtar.richtarjakub
 
 import android.app.Application
-import com.pepcox.richtar.richtarjakub.di.BeerComponent
-import com.pepcox.richtar.richtarjakub.di.DaggerBeerComponent
+import com.pepcox.richtar.richtarjakub.di.*
 
 class RichtarJakupApp : Application() {
 
@@ -12,6 +11,6 @@ class RichtarJakupApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        beersComponent = DaggerBeerComponent.create()
+        beersComponent = DaggerBeerComponent.builder().beersModule(BeersModule(this)).build()
     }
 }
