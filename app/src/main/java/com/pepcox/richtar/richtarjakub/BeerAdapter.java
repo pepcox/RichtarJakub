@@ -19,6 +19,7 @@ import java.util.List;
 public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> {
     private List beers;
     private Context context;
+    private ItemClickedInterface itemClickedInterface;
 
     @IntDef({ViewType.BEER, ViewType.CREDITS})
     @Retention(RetentionPolicy.SOURCE)
@@ -28,9 +29,10 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
     }
 
 
-    BeerAdapter(List beers, Context context) {
+    public BeerAdapter(List beers, Context context, ItemClickedInterface itemClickedInterface) {
         this.beers = beers;
         this.context = context;
+        this.itemClickedInterface = itemClickedInterface;
     }
 
     @Override
@@ -58,18 +60,21 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         String text;
         if (position < beers.size()) {
-            Beer beer = (Beer) beers.get(position);
-            text = beer.getTitle();
+            final Beer beer = (Beer) beers.get(position);
+            text = beer.getName();
             Picasso.with(context)
-                    .load(beer.getImageUrl())
+                    .load(beer.getImage())
                     .into(holder.imageView);
-        } else {
-            text = context.getString(R.string.credits);
-            Picasso.with(context)
-                    .load(R.drawable.doge)
-                    .into(holder.imageView);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (itemClickedInterface != null) {
+                        itemClickedInterface.onItemClicked(beer);
+                    }
+                }
+            });
+            holder.textView.setText(text);
         }
-        holder.textView.setText(text);
     }
 
     @Override
