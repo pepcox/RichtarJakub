@@ -1,5 +1,5 @@
 package com.pepcox.richtar.richtarjakub
 
-interface ItemClickedInterface<T> {
+interface ItemClickedInterface<in T> {
     fun onItemClicked(beer: T)
 }
