@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-class BeersModule(val context: Context) {
+class BeersModule(private val context: Context) {
 
     @Provides
     @Singleton
