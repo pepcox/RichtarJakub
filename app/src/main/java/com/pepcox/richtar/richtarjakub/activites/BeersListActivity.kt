@@ -7,13 +7,13 @@ import com.pepcox.richtar.richtarjakub.R
 import com.pepcox.richtar.richtarjakub.RichtarJakupApp
 import com.pepcox.richtar.richtarjakub.data.Beer
 import com.pepcox.richtar.richtarjakub.managers.BeerManager
-import com.pepcox.richtar.richtarjakub.presenters.BeerListPresenter
+import com.pepcox.richtar.richtarjakub.presenters.ItemListPresenter
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-class BeersListActivity : AppCompatActivity(), ItemClickedInterface {
+class BeersListActivity : AppCompatActivity(), ItemClickedInterface<Beer> {
 
     override fun onItemClicked(beer: Beer) {
         beerPresenter.showDetail(beer)
@@ -22,7 +22,7 @@ class BeersListActivity : AppCompatActivity(), ItemClickedInterface {
     @Inject
     lateinit var beerManager: BeerManager
     @Inject
-    lateinit var beerPresenter: BeerListPresenter
+    lateinit var beerPresenter: ItemListPresenter<Beer>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

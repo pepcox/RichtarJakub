@@ -12,13 +12,13 @@ import com.pepcox.richtar.richtarjakub.ItemClickedInterface
 import com.pepcox.richtar.richtarjakub.activites.BeerDetailActivity
 import com.pepcox.richtar.richtarjakub.data.Beer
 
-class BeerListPresenterImpl(private val context: Context) : BeerListPresenter {
+class BeerListPresenterImpl(private val context: Context) : ItemListPresenter<Beer> {
 
     override fun showError(error: String) {
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showBeers(view: View, beers: List<Beer>, listener: ItemClickedInterface) {
+    override fun showBeers(view: View, beers: List<Beer>, listener: ItemClickedInterface<Beer>) {
         val recyclerView = view as RecyclerView
         recyclerView.hasFixedSize()
         recyclerView.layoutManager = LinearLayoutManager(context)
