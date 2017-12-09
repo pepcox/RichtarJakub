@@ -15,10 +15,6 @@ import javax.inject.Inject
 
 class BeersListActivity : AppCompatActivity(), ItemClickedInterface<Beer> {
 
-    override fun onItemClicked(beer: Beer) {
-        beerPresenter.showDetail(beer)
-    }
-
     @Inject
     lateinit var beerManager: BeerManager
     @Inject
@@ -39,5 +35,9 @@ class BeersListActivity : AppCompatActivity(), ItemClickedInterface<Beer> {
                 {
                     beerPresenter.showError(it.message!!)
                 })
+    }
+
+    override fun onItemClicked(beer: Beer) {
+        beerPresenter.showDetail(beer)
     }
 }
