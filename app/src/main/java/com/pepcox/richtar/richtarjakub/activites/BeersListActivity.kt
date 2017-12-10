@@ -1,43 +1,57 @@
 package com.pepcox.richtar.richtarjakub.activites
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.pepcox.richtar.richtarjakub.ItemClickedInterface
+import android.support.v7.widget.LinearLayoutManager
+import android.view.animation.AnimationUtils
+import android.widget.Toast
+import com.pepcox.richtar.richtarjakub.BeerAdapter
 import com.pepcox.richtar.richtarjakub.R
 import com.pepcox.richtar.richtarjakub.RichtarJakupApp
 import com.pepcox.richtar.richtarjakub.data.Beer
 import com.pepcox.richtar.richtarjakub.managers.BeerManager
-import com.pepcox.richtar.richtarjakub.presenters.ItemListPresenter
-import kotlinx.android.synthetic.main.activity_scrolling.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import com.pepcox.richtar.richtarjakub.presenters.BeerContract
+import com.pepcox.richtar.richtarjakub.presenters.BeerPresenter
+import kotlinx.android.synthetic.main.activity_beers_list.*
 import javax.inject.Inject
 
-class BeersListActivity : AppCompatActivity(), ItemClickedInterface<Beer> {
+class BeersListActivity : AppCompatActivity(), BeerContract.View {
 
     @Inject
     lateinit var beerManager: BeerManager
-    @Inject
-    lateinit var beerPresenter: ItemListPresenter<Beer>
+    private lateinit var beerPresenter: BeerContract.Presenter
+
+    override fun showBeerDetail(beer: Beer) {
+        val bundle = Bundle()
+        bundle.putSerializable(BeerDetailActivity.BEER_ARG, beer)
+
+        val intent = Intent(this, BeerDetailActivity::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
+    override fun showListView(beers: List<Beer>) {
+        loading_image.clearAnimation()
+        view_switcher.displayedChild = 1
+
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.adapter = BeerAdapter(beers, this, beerPresenter)
+    }
+
+    override fun showErrorView(error: String) {
+        Toast.makeText(this, "Ups, something went wrong", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scrolling)
+        setContentView(R.layout.activity_beers_list)
 
         RichtarJakupApp.beersComponent.inject(this)
 
-        beerManager.getBeers()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    beerPresenter.showBeers(my_recycler_view, it, ScrollingActivity@this)
-                },
-                {
-                    beerPresenter.showError(it.message!!)
-                })
-    }
+        loading_image.startAnimation(AnimationUtils.loadAnimation(this, R.anim.loading))
 
-    override fun onItemClicked(beer: Beer) {
-        beerPresenter.showDetail(beer)
+        beerPresenter = BeerPresenter(this, beerManager)
+        beerPresenter.loadBeerList()
     }
 }
