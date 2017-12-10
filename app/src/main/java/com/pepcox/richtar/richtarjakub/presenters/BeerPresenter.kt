@@ -5,7 +5,7 @@ import com.pepcox.richtar.richtarjakub.managers.BeerManager
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class BeerPresenter(private val beerView: BeerContract.View, val beerManager: BeerManager): BeerContract.Presenter {
+class BeerPresenter(private val beerView: BeerContract.View, private val beerManager: BeerManager): BeerContract.Presenter {
     override fun loadBeerList() {
         beerManager.getBeers()
                 .subscribeOn(Schedulers.io())
