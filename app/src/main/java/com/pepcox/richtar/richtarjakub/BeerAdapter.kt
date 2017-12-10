@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.pepcox.richtar.richtarjakub.data.Beer
+import com.pepcox.richtar.richtarjakub.presenters.BeerContract
 import com.squareup.picasso.Picasso
 
-class BeerAdapter(private val beers: List<Beer>, private val context: Context, private val itemClickedInterface: ItemClickedInterface<Beer>) : RecyclerView.Adapter<BeerAdapter.MyViewHolder>() {
+class BeerAdapter(private val beers: List<Beer>, private val context: Context, private val beerPresenter: BeerContract.Presenter) : RecyclerView.Adapter<BeerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
             MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.beer_item, parent, false))
@@ -22,7 +23,7 @@ class BeerAdapter(private val beers: List<Beer>, private val context: Context, p
                 .into(holder.imageView)
         holder.textView.text = beer.name
         holder.itemView.setOnClickListener {
-            itemClickedInterface.onItemClicked(beer)
+            beerPresenter.openBeerDetail(beer)
         }
     }
 
