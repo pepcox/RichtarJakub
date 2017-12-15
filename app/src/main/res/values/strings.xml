@@ -2,4 +2,6 @@
     <string name="app_name">Richtar Jakub</string>
     <string name="action_settings">Settings</string>
     <string name="credits"><![CDATA[Created with <3 by Juraj & Filip]]></string>
+    <string name="add_beer">Add beer</string>
+    <string name="favorite_beer">Favorite beer</string>
 </resources>
