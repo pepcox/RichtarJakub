@@ -9,19 +9,18 @@ import java.util.List;
 
 @Dao
 public interface BeerDao {
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM Beer")
     List<Beer> getAll();
 
-    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
-    List<Beer> loadAllByIds(int[] userIds);
+    @Query("SELECT * FROM Beer WHERE id IN (:beerIds)")
+    List<Beer> loadAllByIds(int[] beerIds);
 
-    @Query("SELECT * FROM user WHERE first_name LIKE :first AND "
-            + "last_name LIKE :last LIMIT 1")
-    Beer findByName(String first, String last);
+    @Query("SELECT * FROM Beer WHERE name LIKE :name LIMIT 1")
+    Beer findByName(String name);
 
     @Insert
-    void insertAll(Beer... users);
+    void insert(Beer beer);
 
     @Delete
-    void delete(Beer user);
+    void delete(Beer beer);
 }

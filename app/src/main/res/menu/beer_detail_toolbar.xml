@@ -3,14 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_exposure_plus_1"
+        android:id="@+id/action_favorite"
+        android:icon="@drawable/ic_favorite_border"
         android:title="@string/add_beer"
         app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/action_favorite"
-        android:icon="@drawable/ic_favorite_border"
-        android:title="@string/favorite_beer"
-        app:showAsAction="ifRoom"/>
+
 </menu>

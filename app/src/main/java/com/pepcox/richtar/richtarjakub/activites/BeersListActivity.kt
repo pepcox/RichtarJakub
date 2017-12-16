@@ -15,8 +15,6 @@ import com.pepcox.richtar.richtarjakub.presenters.BeerContract
 import com.pepcox.richtar.richtarjakub.presenters.BeerPresenter
 import kotlinx.android.synthetic.main.activity_beers_list.*
 import javax.inject.Inject
-import android.arch.persistence.room.Room
-import com.pepcox.richtar.richtarjakub.data.BeerDatabase
 
 
 class BeersListActivity : AppCompatActivity(), BeerContract.View {
@@ -40,9 +38,6 @@ class BeersListActivity : AppCompatActivity(), BeerContract.View {
 
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = BeerAdapter(beers, this, beerPresenter)
-
-        val db = Room.databaseBuilder(applicationContext,
-                BeerDatabase::class.java, "database-name").build()
     }
 
     override fun showErrorView(error: String) {
