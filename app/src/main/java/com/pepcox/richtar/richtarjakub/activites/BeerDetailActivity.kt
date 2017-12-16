@@ -74,12 +74,12 @@ class BeerDetailActivity: AppCompatActivity() {
                 return true
             }
             R.id.action_favorite -> {
-                if(db.beerDao().findByName(beer.name) == null) {
+                if(db.beerDao().findByName(beer.name, beer.image) == null) {
                     db.beerDao().insert(beer)
                     item.setIcon(R.drawable.ic_favorite_filled)
                     Toast.makeText(this, "This beer is your favorite <3", Toast.LENGTH_SHORT).show()
                 } else {
-                    db.beerDao().delete(beer)
+                    db.beerDao().deleteDoPice(beer.name)
                     item.setIcon(R.drawable.ic_favorite_border)
                     Toast.makeText(this, "Whyy?!", Toast.LENGTH_SHORT).show()
                 }
@@ -96,7 +96,7 @@ class BeerDetailActivity: AppCompatActivity() {
 
         val item: MenuItem = menu!!.findItem(R.id.action_favorite)
 
-        if(db.beerDao().findByName(beer.name) != null) {
+        if(db.beerDao().findByName(beer.name, beer.image) != null) {
             item.setIcon(R.drawable.ic_favorite_filled)
         }
 

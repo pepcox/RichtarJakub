@@ -5,5 +5,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import java.io.Serializable
 
-@Entity
-class Beer(@PrimaryKey(autoGenerate = true) val id: Int, @ColumnInfo val name: String,@ColumnInfo val image: String, val detail: String) : Serializable
+@Entity(tableName = "favorite_beers")
+class Beer(@PrimaryKey(autoGenerate = true) val id: Int, @ColumnInfo val name: String
+           ,@ColumnInfo val image: String,@ColumnInfo val detail: String) : Serializable
