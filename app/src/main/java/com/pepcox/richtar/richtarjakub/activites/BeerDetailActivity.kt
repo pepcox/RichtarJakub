@@ -1,6 +1,5 @@
 package com.pepcox.richtar.richtarjakub.activites
 
-import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
@@ -11,7 +10,8 @@ import android.widget.Toast
 import com.pepcox.richtar.richtarjakub.R
 import com.pepcox.richtar.richtarjakub.RichtarJakupApp
 import com.pepcox.richtar.richtarjakub.data.Beer
-import com.pepcox.richtar.richtarjakub.data.BeerDatabase
+import com.pepcox.richtar.richtarjakub.data.BeerRepository
+import com.pepcox.richtar.richtarjakub.data.CreateBeerDao
 import com.pepcox.richtar.richtarjakub.managers.BeerManager
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -20,7 +20,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-class BeerDetailActivity: AppCompatActivity() {
+class BeerDetailActivity(val beerRepository: BeerRepository): AppCompatActivity() {
 
     companion object {
         const val BEER_ARG = "beer"
@@ -29,7 +29,9 @@ class BeerDetailActivity: AppCompatActivity() {
     @Inject
     lateinit var beerManager: BeerManager
     private lateinit var beer: Beer
-    private lateinit var db: BeerDatabase
+
+    @Inject
+    lateinit var db: CreateBeerDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +40,7 @@ class BeerDetailActivity: AppCompatActivity() {
 
         RichtarJakupApp.beersComponent.inject(this)
 
-        db = Room.databaseBuilder(applicationContext
-                , BeerDatabase::class.java, "database-beers").allowMainThreadQueries().build()
+        db.beerDatabase()
 
         initToolbar()
         startLoadingAnimation()
@@ -74,12 +75,12 @@ class BeerDetailActivity: AppCompatActivity() {
                 return true
             }
             R.id.action_favorite -> {
-                if(db.beerDao().findByName(beer.name, beer.image) == null) {
-                    db.beerDao().insert(beer)
+                if(beerRepository.getBeerExistence(beer.name, beer.image) ) {
+                    beerRepository.insertBeer(beer)
                     item.setIcon(R.drawable.ic_favorite_filled)
                     Toast.makeText(this, "This beer is your favorite <3", Toast.LENGTH_SHORT).show()
                 } else {
-                    db.beerDao().deleteDoPice(beer.name)
+                    beerRepository.deleteBeer(beer.name)
                     item.setIcon(R.drawable.ic_favorite_border)
                     Toast.makeText(this, "Whyy?!", Toast.LENGTH_SHORT).show()
                 }
@@ -96,7 +97,7 @@ class BeerDetailActivity: AppCompatActivity() {
 
         val item: MenuItem = menu!!.findItem(R.id.action_favorite)
 
-        if(db.beerDao().findByName(beer.name, beer.image) != null) {
+        if(beerRepository.getBeerExistence(beer.name, beer.image)) {
             item.setIcon(R.drawable.ic_favorite_filled)
         }
 
