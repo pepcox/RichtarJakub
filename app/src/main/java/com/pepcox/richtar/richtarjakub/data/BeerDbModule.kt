@@ -7,17 +7,17 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class BeerDbModule constructor(private val context: Context) {
+class BeerDbModule constructor(private val context: Context) {
 
     class BeerRoomApi(context: Context): BeerDbApi {
         private var db: BeerDatabase? = null
         init {
             db = Room.databaseBuilder(context,
-                    BeerDatabase::class.java, "database-beers").build()
+                    BeerDatabase::class.java, "database-beers").allowMainThreadQueries().build()
         }
 
         override fun findByName(name: String, image: String): Boolean {
-            return if (db!!.beerDao().findByName(name, image) == null) true else false
+            return db!!.beerDao().findByName(name, image) != null
         }
 
         override fun insertBeer(beer: Beer) {

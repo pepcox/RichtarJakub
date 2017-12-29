@@ -19,18 +19,18 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-class BeerDetailActivity(val beerRepository: BeerRepository): AppCompatActivity() {
+class BeerDetailActivity(): AppCompatActivity() {
 
     companion object {
         const val BEER_ARG = "beer"
     }
 
     @Inject
-    lateinit var beerManager: BeerManager
-    private lateinit var beer: Beer
+    lateinit var beerDbRepository: BeerRepository
 
     @Inject
-    lateinit var db: CreateBeerDao
+    lateinit var beerManager: BeerManager
+    private lateinit var beer: Beer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +38,6 @@ class BeerDetailActivity(val beerRepository: BeerRepository): AppCompatActivity(
         setContentView(R.layout.activity_beer_detail)
 
         RichtarJakupApp.beersComponent.inject(this)
-
-        db.beerDatabase()
 
         initToolbar()
         startLoadingAnimation()
@@ -74,14 +72,14 @@ class BeerDetailActivity(val beerRepository: BeerRepository): AppCompatActivity(
                 return true
             }
             R.id.action_favorite -> {
-                if(beerRepository.getBeerExistence(beer.name, beer.image) ) {
-                    beerRepository.insertBeer(beer)
-                    item.setIcon(R.drawable.ic_favorite_filled)
-                    Toast.makeText(this, "This beer is your favorite <3", Toast.LENGTH_SHORT).show()
-                } else {
-                    beerRepository.deleteBeer(beer.name)
+                if(beerDbRepository.getBeerExistence(beer.name, beer.image) ) {
+                    beerDbRepository.deleteBeer(beer.name)
                     item.setIcon(R.drawable.ic_favorite_border)
                     Toast.makeText(this, "Whyy?!", Toast.LENGTH_SHORT).show()
+                } else {
+                    beerDbRepository.insertBeer(beer)
+                    item.setIcon(R.drawable.ic_favorite_filled)
+                    Toast.makeText(this, "This beer is your favorite <3", Toast.LENGTH_SHORT).show()
                 }
                 return true
             }
@@ -96,7 +94,7 @@ class BeerDetailActivity(val beerRepository: BeerRepository): AppCompatActivity(
 
         val item: MenuItem = menu!!.findItem(R.id.action_favorite)
 
-        if(beerRepository.getBeerExistence(beer.name, beer.image)) {
+        if(beerDbRepository.getBeerExistence(beer.name, beer.image)) {
             item.setIcon(R.drawable.ic_favorite_filled)
         }
 
