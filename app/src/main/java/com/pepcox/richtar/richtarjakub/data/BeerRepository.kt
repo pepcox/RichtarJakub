@@ -1,16 +1,16 @@
 package com.pepcox.richtar.richtarjakub.data
 
-class BeerRepository(val beerDao: BeerDao) {
+class BeerRepository(val beerDao: BeerDbModule.BeerRoomApi) {
 
     fun getBeerExistence(name: String, image: String): Boolean {
-        return if (beerDao.findByName(name, image) != null) true else false
+        return beerDao.findByName(name, image)
     }
 
     fun insertBeer(beer: Beer) {
-        beerDao.insert(beer)
+        beerDao.insertBeer(beer)
     }
 
     fun deleteBeer(beerName: String) {
-        beerDao.deleteDoPice(beerName)
+        beerDao.deleteBeer(beerName)
     }
 }

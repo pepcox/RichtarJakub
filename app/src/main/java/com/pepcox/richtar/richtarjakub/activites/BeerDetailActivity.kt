@@ -11,7 +11,6 @@ import com.pepcox.richtar.richtarjakub.R
 import com.pepcox.richtar.richtarjakub.RichtarJakupApp
 import com.pepcox.richtar.richtarjakub.data.Beer
 import com.pepcox.richtar.richtarjakub.data.BeerRepository
-import com.pepcox.richtar.richtarjakub.data.CreateBeerDao
 import com.pepcox.richtar.richtarjakub.managers.BeerManager
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
