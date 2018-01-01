@@ -84,6 +84,10 @@ class BeerDetailActivity(): AppCompatActivity() {
                 return true
             }
 
+            R.id.action_add_beer -> {
+
+            }
+
         }
 
         return super.onOptionsItemSelected(item)
