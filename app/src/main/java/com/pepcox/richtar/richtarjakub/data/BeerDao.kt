@@ -13,7 +13,7 @@ interface BeerDao {
     fun loadAllByIds(beerIds: IntArray): List<Beer>
 
     @Query("SELECT * FROM favorite_beers WHERE name LIKE :name AND " + "image LIKE :image LIMIT 1")
-    fun findByName(name: String, image: String): Beer
+    fun findByName(name: String, image: String): Beer?
 
     @Insert
     fun insert(beer: Beer)

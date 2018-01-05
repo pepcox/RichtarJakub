@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.pepcox.richtar.richtarjakub.R
 import com.pepcox.richtar.richtarjakub.RichtarJakupApp
 import com.pepcox.richtar.richtarjakub.data.Beer
+import com.pepcox.richtar.richtarjakub.data.BeerHistory
 import com.pepcox.richtar.richtarjakub.data.BeerRepository
 import com.pepcox.richtar.richtarjakub.managers.BeerManager
 import com.squareup.picasso.Callback
@@ -66,6 +67,8 @@ class BeerDetailActivity(): AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val beerHistory = BeerHistory(5,"Pivko", "Dajaka fotka")
+
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
@@ -78,6 +81,7 @@ class BeerDetailActivity(): AppCompatActivity() {
                     Toast.makeText(this, "Whyy?!", Toast.LENGTH_SHORT).show()
                 } else {
                     beerDbRepository.insertBeer(beer)
+                    beerDbRepository.insertBeer(beerHistory)
                     item.setIcon(R.drawable.ic_favorite_filled)
                     Toast.makeText(this, "This beer is your favorite <3", Toast.LENGTH_SHORT).show()
                 }

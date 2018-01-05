@@ -6,7 +6,7 @@ class BeerRepository(val beerDao: BeerDbModule.BeerRoomApi) {
         return beerDao.findByName(name, image)
     }
 
-    fun insertBeer(beer: Beer) {
+    fun <E> insertBeer(beer: E) {
         beerDao.insertBeer(beer)
     }
 

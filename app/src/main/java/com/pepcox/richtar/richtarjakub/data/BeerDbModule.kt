@@ -10,22 +10,28 @@ import dagger.Provides
 class BeerDbModule constructor(private val context: Context) {
 
     class BeerRoomApi(context: Context): BeerDbApi {
-        private var db: BeerDatabase? = null
-        init {
-            db = Room.databaseBuilder(context,
-                    BeerDatabase::class.java, "database-beers").allowMainThreadQueries().build()
-        }
+
+        private var db: BeerDatabase =
+                Room.databaseBuilder(context, BeerDatabase::class.java, "database-beers")
+                        .allowMainThreadQueries().build()
 
         override fun findByName(name: String, image: String): Boolean {
-            return db!!.beerDao().findByName(name, image) != null
+            return db.beerDao().findByName(name, image) != null
         }
 
-        override fun insertBeer(beer: Beer) {
-            db!!.beerDao().insert(beer)
+        override fun <E> insertBeer(beer: E) {
+            when (beer) {
+                is Beer -> {
+                    db.beerDao().insert(beer)
+                }
+                is BeerHistory -> {
+                    db.beerHistoryDao().insertBeerInHistory(beer)
+                }
+            }
         }
 
         override fun deleteBeer(beerName: String) {
-            db!!.beerDao().deleteDoPice(beerName)
+            db.beerDao().deleteDoPice(beerName)
         }
 
     }
