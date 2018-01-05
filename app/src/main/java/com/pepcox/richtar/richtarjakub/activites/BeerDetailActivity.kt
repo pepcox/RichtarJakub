@@ -67,8 +67,6 @@ class BeerDetailActivity(): AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val beerHistory = BeerHistory(5,"Pivko", "Dajaka fotka")
-
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
@@ -81,7 +79,6 @@ class BeerDetailActivity(): AppCompatActivity() {
                     Toast.makeText(this, "Whyy?!", Toast.LENGTH_SHORT).show()
                 } else {
                     beerDbRepository.insertBeer(beer)
-                    beerDbRepository.insertBeer(beerHistory)
                     item.setIcon(R.drawable.ic_favorite_filled)
                     Toast.makeText(this, "This beer is your favorite <3", Toast.LENGTH_SHORT).show()
                 }
@@ -89,9 +86,8 @@ class BeerDetailActivity(): AppCompatActivity() {
             }
 
             R.id.action_add_beer -> {
-
+                beerDbRepository.insertBeer(BeerHistory(beer.id, beer.name, beer.image))
             }
-
         }
 
         return super.onOptionsItemSelected(item)
