@@ -18,7 +18,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_beer_detail.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
+
 
 class BeerDetailActivity(): AppCompatActivity() {
 
@@ -86,7 +88,7 @@ class BeerDetailActivity(): AppCompatActivity() {
             }
 
             R.id.action_add_beer -> {
-                beerDbRepository.insertBeer(BeerHistory(beer.id, beer.name, beer.image))
+                beerDbRepository.insertBeer(BeerHistory(beer.id, beer.name, beer.image, Calendar.getInstance().time.toString()))
             }
         }
 

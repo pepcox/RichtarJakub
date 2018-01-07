@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
+
 @Entity(tableName = "beer_history")
 class BeerHistory(
         @PrimaryKey(autoGenerate = true)
@@ -11,7 +12,7 @@ class BeerHistory(
         @ColumnInfo
         var name: String,
         @ColumnInfo
-        var image: String
-        //@ColumnInfo
-        //var timestamp: Timestamp
+        var image: String,
+        @ColumnInfo
+        var time: String
 )
